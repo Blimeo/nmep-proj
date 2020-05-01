@@ -1,0 +1,10 @@
+.bigdaddy{
+  margin: 10px 10px 10px 10px;
+}
+
+.drawboard {
+  height:480px;
+  width:480px;
+  border:4px solid black !important;
+}
+
