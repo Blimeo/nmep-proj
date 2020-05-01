@@ -1,10 +1,36 @@
-.bigdaddy{
-  margin: 10px 10px 10px 10px;
+body{
+  background-image: url("bg.jpg");
+  background-color:#ebebeb;
+  text-align:center;
 }
 
 .drawboard {
-  height:480px;
-  width:480px;
+  height:512px;
+  width:512px;
   border:4px solid black !important;
 }
 
+.left{
+  display:inline-block;
+  vertical-align: top;
+  margin:20px;
+}
+
+.right{
+  display:inline-block;
+  vertical-align: top;
+  margin:20px;
+}
+
+.asdf{
+  height:512px;
+  width:512px;
+  background-color:white;
+  border:4px solid black !important;
+}
+
+button{
+  margin:2px;
+  border-radius: 10px;
+  background:#d9d9d9;
+}
