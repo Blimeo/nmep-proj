@@ -36,21 +36,23 @@ def get_query_from_react():
     cv2.imwrite('output.png', new_img)
 
     # olivers edits - make sure this doesn't break anything
+    print(torch.cuda.is_available())
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     model = ResNet('18').to(device)
-    model.load_state_dict(torch.load('../../model'))
+    model.load_state_dict(torch.load('../../model', map_location=device))
     model.eval()
     image = torch.Tensor(imageio.imread('output.png')).permute(2, 0, 1).to(device) / 255.
     label = torch.Tensor([sel_cls]).to(device).long()
     eps = 3500
     steps = 100
     # adv is the shifted image as a pytorch tensor which is (1, 3, 32, 32)
-    adv = pgd_attack(image.view(3,32,32), 6, model, stepsize=2.5 * eps / steps, eps=eps, steps=steps, constraint='l_2').cpu()
+    adv = pgd_attack(image.view(3,32,32), sel_cls, model, stepsize=2.5 * eps / steps, eps=eps, steps=steps, constraint='l_2').cpu()
     # upscale to 480 x 480
     upsample = transforms.Compose([transforms.ToPILImage(), transforms.Resize(480), transforms.ToTensor()])
     save_image(upsample(adv), 'converted.png')
-    
-    return raw_image_data
+    final_img = cv2.imread('converted.png')
+    b64_data = base64.b64encode(cv2.imencode('.png', final_img)[1]).decode()
+    return b64_data
 
 if __name__ == '__main__':
     app.run()

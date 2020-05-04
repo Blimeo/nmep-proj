@@ -46,7 +46,7 @@ def pgd_attack(input, label, model, stepsize, eps, steps, constraint='l_2'):
     input = transform(input).view(1, 3, 32, 32)
     loss = torch.nn.CrossEntropyLoss(reduction='sum')
     base = input.clone().detach()
-    label = torch.Tensor([label]).cuda().long()
+    label = torch.Tensor([label]).cpu().long()
     print(input.shape, label.shape)
 
     for _ in range(steps):

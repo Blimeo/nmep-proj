@@ -28,12 +28,11 @@ export default function App() {
         data: asdf,
         cls: selectedClass
       }
-      alert(selectedClass);
       if (asdf !== "") {
         axios.post("/query", params)
           .then(response => {
             let img = new Image();
-            img.src = response.data;
+            img.src = 'data:image/png;base64,' + response.data;
             var x = document.getElementsByClassName('asdf')[0];
             if (x.hasChildNodes()) {
               x.removeChild(x.childNodes[0]);
