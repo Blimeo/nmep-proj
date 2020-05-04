@@ -8,7 +8,7 @@ export default function App() {
   const [color, setColor] = useState('#000');
   const [width, setWidth] = useState(480);
   const [height, setHeight] = useState(480);
-  const [brushRadius, setBrushRadius] = useState(6);
+  const [brushRadius, setBrushRadius] = useState(7);
   const [selectedClass, setSelectedClass] = useState(0);
 
   const canvasRef = useRef(null);
@@ -59,7 +59,7 @@ export default function App() {
     <body>
 
       <h1>CIFAR-10 Sketch Completion Demo</h1>
-      <p>Note: Your sketch will be downsampled for performance reasons.</p>
+      <p>Note: Your sketch will be downsampled very significantly.</p>
       <div className="left">
         <div className="drawboard">
           <CanvasDraw ref={canvasRef} hideGrid={true} brushRadius={brushRadius} brushColor={color} canvasWidth={width} canvasHeight={height} />
@@ -72,6 +72,16 @@ export default function App() {
           <button style={{backgroundColor:'#00ffff'}} onClick={() => updateColor('#00ffff')}>⠀⠀⠀</button>
           <button style={{backgroundColor:'#964b00'}} onClick={() => updateColor('#964b00')}>⠀⠀⠀</button>
           <button style={{backgroundColor:'#000000'}} onClick={() => updateColor('#000000')}>⠀⠀⠀</button>
+          <label>
+          <select value={brushRadius} onChange={e => setBrushRadius(e.target.value)}>
+          <option value={2}>skinny</option>
+          <option value={4}>thin</option>
+          <option value={7}>normal</option>
+          <option value={15}>thick</option>
+          <option value={50}>monstrous</option>
+          <option value={800}>fill</option>
+          </select>
+        </label>
         </div>
         <label>
           Pick your target class: 
