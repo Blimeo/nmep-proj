@@ -22,7 +22,8 @@ cifar_labels = {0:'airplane',1:'automobile',2:'bird',3:'cat',4:'deer',5:'dog',6:
 
 model = ResNet('18').to(device)
 # model.load_state_dict(torch.load('models/resnet18_l2stepsize=0.1eps=0.5steps=7/8'))
-model.load_state_dict(torch.load('models/resnet18_l2eps=10steps=7/10'))
+# model.load_state_dict(torch.load('models/resnet18_l2eps=1/70'))
+model.load_state_dict(torch.load('models/bad_resnet18'))
 
 model.eval()
 #
@@ -43,7 +44,7 @@ model.eval()
 
 test_acc = accuracy(model, test_dataloader, device)
 fgsm_acc = fgsm_accuracy(model, test_dataloader, device)
-pgd_acc = pgd_accuracy(model, test_dataloader, device, eps=10, steps=7, alpha=2.5 * 10 / 7)
+pgd_acc = pgd_accuracy(model, test_dataloader, device, eps=1, steps=7, alpha=2.5 * 1 / 7)
 print('Normal Test Accuray:', test_acc)
 print('FGSM Test Accuracy:', fgsm_acc)
 print('PGD Test Accuracy:', pgd_acc)

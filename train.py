@@ -16,7 +16,7 @@ torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
 np.random.seed(seed)
 
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
 print(device)
 
 
@@ -43,7 +43,8 @@ def train(train_dataset, val_dataset, model, epochs, lr, model_name, adversarial
             total_examples_seen += len(inputs)
             if adversarial:
                 # inputs = pgd_attack(inputs, labels).to(device)
-                inputs = pgd(inputs, labels, model, stepsize=10*2.5/7, eps=10, steps=7, constraint='l_2')
+                eps=10
+                inputs = pgd(inputs, labels, model, stepsize=eps*2.5/7, eps=eps, steps=7, constraint='l_2')
                 # inputs = fgsm(inputs, labels, model, eps=.08)
                 optimizer.zero_grad()
                 out = model(inputs)
@@ -128,10 +129,10 @@ test_dataloader = torch.utils.data.DataLoader(test_data,
 
 
 from models import *
-model = ResNet('18')
+model = ResNet('50')
 model.to(device)
 model.train()
 # print(model)
 # train(train_dataloader, test_dataloader, model, 100, 0.001, adversarial=False)
-train(train_dataloader, test_dataloader, model, 350, 0.1, adversarial=True, model_name='resnet18_l2eps=10')
+train(train_dataloader, test_dataloader, model, 100, 0.1, adversarial=True, model_name='resnet50_l2eps=10')
 # train(train_dataloader, test_dataloader, model, 25, 0.1, adversarial=False, model_name='resnet18_normal')
