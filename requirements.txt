@@ -6,3 +6,4 @@ flask
 imageio
 torchattacks
 gunicorn
+matplotlib
