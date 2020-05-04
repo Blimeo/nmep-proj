@@ -1,6 +1,7 @@
 numpy
-python-opencv
-pytorch
+opencv-python
+torch
+torchvision
 flask
 imageio
 torchattacks
