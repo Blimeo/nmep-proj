@@ -6,10 +6,10 @@ import CanvasDraw from 'react-canvas-draw';
 export default function App() {
   const axios = require('axios').default;
   const [color, setColor] = useState('#000');
-  const [width, setWidth] = useState(512);
-  const [height, setHeight] = useState(512);
+  const [width, setWidth] = useState(480);
+  const [height, setHeight] = useState(480);
   const [brushRadius, setBrushRadius] = useState(6);
-  const [lazyRadius, setLazyRadius] = useState(6);
+  const [selectedClass, setSelectedClass] = useState(0);
 
   const canvasRef = useRef(null);
 
@@ -25,8 +25,10 @@ export default function App() {
           'Accept': 'application/json',
           'Content-Type': 'application/json;charset=UTF-8'
         },
-        data: asdf
+        data: asdf,
+        cls: selectedClass
       }
+      alert(selectedClass);
       if (asdf !== "") {
         axios.post("/query", params)
           .then(response => {
@@ -57,24 +59,40 @@ export default function App() {
   return (
     <body>
 
-      <h1>Sketch Completion Demo</h1>
+      <h1>CIFAR-10 Sketch Completion Demo</h1>
       <p>Note: Your sketch will be downsampled for performance reasons.</p>
       <div className="left">
         <div className="drawboard">
           <CanvasDraw ref={canvasRef} hideGrid={true} brushRadius={brushRadius} brushColor={color} canvasWidth={width} canvasHeight={height} />
         </div>
         <div className="buttons">
-          <button onClick={() => updateColor('#ff0000')}>Red</button>
-          <button onClick={() => updateColor('#228B22')}>Green</button>
-          <button onClick={() => updateColor('#0000ff')}>Blue</button>
-          <button onClick={() => updateColor('#ffff00')}>Yellow</button>
-          <button onClick={() => updateColor('#00ffff')}>Teal</button>
-          <button onClick={() => updateColor('#964b00')}>Brown</button>
-          <button onClick={() => updateColor('#000000')}>Black</button>
+          <button style={{backgroundColor:'#ff0000'}} onClick={() => updateColor('#ff0000')}>⠀⠀⠀</button>
+          <button style={{backgroundColor:'#228B22'}} onClick={() => updateColor('#228B22')}>⠀⠀⠀</button>
+          <button style={{backgroundColor:'#0000ff'}} onClick={() => updateColor('#0000ff')}>⠀⠀⠀</button>
+          <button style={{backgroundColor:'#ffff00'}} onClick={() => updateColor('#ffff00')}>⠀⠀⠀</button>
+          <button style={{backgroundColor:'#00ffff'}} onClick={() => updateColor('#00ffff')}>⠀⠀⠀</button>
+          <button style={{backgroundColor:'#964b00'}} onClick={() => updateColor('#964b00')}>⠀⠀⠀</button>
+          <button style={{backgroundColor:'#000000'}} onClick={() => updateColor('#000000')}>⠀⠀⠀</button>
         </div>
+        <label>
+          Pick your target class: 
+          <select value={selectedClass} onChange={e => setSelectedClass(e.target.value)}>
+          <option value="0">airplane</option>
+          <option value="1">automobile</option>
+          <option value="2">bird</option>
+          <option value="3">cat</option>
+          <option value="4">deer</option>
+          <option value="5">dog</option>
+          <option value="6">frog</option>
+          <option value="7">horse</option>
+          <option value="8">ship</option>
+          <option value="9">truck</option>
+          </select>
+        </label>
         <div className="submit">
         <button onClick={() => resetCanvas()}>Reset canvas</button>
-          <button onClick={() => saveFile()}>Complete my image!</button>
+        
+        <button onClick={() => saveFile()}>Complete my image!</button>
         </div>
         
       </div>

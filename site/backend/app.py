@@ -26,6 +26,7 @@ def remove_transparency(img):
 def get_query_from_react():
     data = fsk.request.get_json()
     raw_image_data = data['data']
+    sel_cls = int(data['cls'])
     base64_data = re.sub('^data:image/.+;base64,', '', raw_image_data)
     png_data = base64.b64decode(base64_data)
     with open("original.png", "wb") as fh:
@@ -40,7 +41,7 @@ def get_query_from_react():
     model.load_state_dict(torch.load('../../model'))
     model.eval()
     image = torch.Tensor(imageio.imread('output.png')).permute(2, 0, 1).to(device) / 255.
-    label = torch.Tensor([6]).to(device).long()
+    label = torch.Tensor([sel_cls]).to(device).long()
     eps = 3500
     steps = 100
     # adv is the shifted image as a pytorch tensor which is (1, 3, 32, 32)
@@ -48,7 +49,7 @@ def get_query_from_react():
     # upscale to 480 x 480
     upsample = transforms.Compose([transforms.ToPILImage(), transforms.Resize(480), transforms.ToTensor()])
     save_image(upsample(adv), 'converted.png')
-
+    
     return raw_image_data
 
 if __name__ == '__main__':
