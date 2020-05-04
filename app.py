@@ -39,7 +39,7 @@ def get_query_from_react():
     print(torch.cuda.is_available())
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     model = ResNet('18').to(device)
-    model.load_state_dict(torch.load('../../model', map_location=device))
+    model.load_state_dict(torch.load('model', map_location=device))
     model.eval()
     image = torch.Tensor(imageio.imread('output.png')).permute(2, 0, 1).to(device) / 255.
     label = torch.Tensor([sel_cls]).to(device).long()
