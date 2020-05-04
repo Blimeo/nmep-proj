@@ -1,0 +1,7 @@
+numpy
+python-opencv
+pytorch
+flask
+imageio
+torchattacks
+gunicorn
