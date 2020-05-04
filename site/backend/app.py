@@ -9,6 +9,7 @@ parentdir = os.path.dirname(os.path.dirname(currentdir))
 sys.path.insert(0,parentdir)
 import torch
 import torchvision.transforms as transforms
+from torchvision.utils import save_image
 from utils import *
 from models import *
 
@@ -44,6 +45,9 @@ def get_query_from_react():
     steps = 100
     # adv is the shifted image as a pytorch tensor which is (1, 3, 32, 32)
     adv = pgd_attack(image.view(3,32,32), 6, model, stepsize=2.5 * eps / steps, eps=eps, steps=steps, constraint='l_2').cpu()
+    # upscale to 480 x 480
+    upsample = transforms.Compose([transforms.ToPILImage(), transforms.Resize(480), transforms.ToTensor()])
+    save_image(upsample(adv), 'converted.png')
 
     return raw_image_data
 
