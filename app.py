@@ -12,9 +12,11 @@ import torchvision.transforms as transforms
 from torchvision.utils import save_image
 from utils import *
 from models import *
+from flask_cors import CORS
 
 
 app = fsk.Flask(__name__)
+CORS(app)
 
 def remove_transparency(img):
     image = cv2.imread(img, cv2.IMREAD_UNCHANGED)
