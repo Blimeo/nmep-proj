@@ -25,7 +25,7 @@ def train(train_dataset, val_dataset, model, epochs, lr, model_name, adversarial
     print('Training {0} for {1} epochs'.format(model_name, epochs))
     # optimizer = torch.optim.Adam(model.parameters(), lr=lr, betas=(0.9, 0.999), weight_decay=5e-4)
     optimizer = torch.optim.SGD(model.parameters(), lr=lr, momentum=0.9, weight_decay=5e-4)
-    scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=[90, 130, 350], gamma=0.1)
+    scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=[250, 300], gamma=0.1)
 
     loss =  nn.CrossEntropyLoss()
     plotted_train_epochs = []
@@ -116,10 +116,10 @@ test_dataloader = torch.utils.data.DataLoader(test_data,
 
 
 from models import *
-model = ResNet('50')
+model = ResNet('18')
 model.to(device)
 model.train()
 # print(model)
 # train(train_dataloader, test_dataloader, model, 100, 0.001, adversarial=False)
-train(train_dataloader, test_dataloader, model, 150, 0.1, adversarial=True, model_name='resnet50_l2eps=100', eps=100)
+train(train_dataloader, test_dataloader, model, 350, 0.1, adversarial=True, model_name='resnet18_l2eps=70', eps=70)
 # train(train_dataloader, test_dataloader, model, 25, 0.1, adversarial=False, model_name='resnet18_normal')
