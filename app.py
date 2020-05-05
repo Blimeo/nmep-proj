@@ -50,7 +50,7 @@ def get_query_from_react():
     # adv is the shifted image as a pytorch tensor which is (1, 3, 32, 32)
     adv = pgd_attack(image.view(3,32,32), sel_cls, model, stepsize=2.5 * eps / steps, eps=eps, steps=steps, constraint='l_2').cpu()
     # upscale to 480 x 480
-    upsample = transforms.Compose([transforms.ToPILImage(), transforms.Resize(480, interpolation=3), transforms.ToTensor()])
+    upsample = transforms.Compose([transforms.ToPILImage(), transforms.Resize(480, interpolation=5), transforms.ToTensor()])
     save_image(upsample(adv), 'converted.png')
     final_img = cv2.imread('converted.png')
     b64_data = base64.b64encode(cv2.imencode('.png', final_img)[1]).decode()
