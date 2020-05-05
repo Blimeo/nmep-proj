@@ -32,11 +32,13 @@ class CNN(nn.Module): # random basic model for testing things
         return out
 
 class ResNet(nn.Module):
-    def __init__(self, version):
+    def __init__(self, version, dset='cifar'):
         super(ResNet, self).__init__()
         self.resnet = torch.hub.load('pytorch/vision:v0.6.0', 'resnet' + version, pretrained=False)
-        self.resnet.fc = nn.Linear(in_features=self.resnet.fc.in_features, out_features=10, bias=True)
-
+        if dset == 'cifar':
+            self.resnet.fc = nn.Linear(in_features=self.resnet.fc.in_features, out_features=10, bias=True)
+        else:
+            self.resnet.fc = nn.Linear(in_features=self.resnet.fc.in_features, out_features=10, bias=True)
 
     def forward(self,x):
         out = self.resnet(x)
@@ -50,9 +52,3 @@ class MobileNet(nn.Module):
     def forward(self,x):
         out = self.mobile(x)
         return out
-# resnet.conv1 = nn.Conv2d(3, channels1, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
-# resnet.bn1 = nn.BatchNorm2d(channels1, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-# resnet.layer1.conv1 = nn.Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-# resnet.layer1.bn1 = nn.BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-# resnet.layer1.conv2 = nn.Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-# resnet.layer1.bn2 = bb.BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)

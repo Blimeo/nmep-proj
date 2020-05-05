@@ -6,8 +6,8 @@ def l2_projection(step, start, eps):
     dif = step - start
     dif = dif.reshape(-1, 32*32*3)
     n = torch.sum(dif ** 2, dim=1).reshape(-1, 1) ** (1/2.) # l2 norm
-    out = torch.where(n <= eps, dif, (dif / n) * eps)
-    return out.view(-1, 3, 32, 32)
+    out = torch.where(n <= eps, dif, (dif / n) * eps) # make sure each dif is bounded by eps
+    return out.reshape(-1, 3, 32, 32)
 
 def li_projection(step, start, eps):
     return torch.clamp(step - start, min=-eps, max=eps)

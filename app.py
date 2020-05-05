@@ -45,18 +45,18 @@ def get_query_from_react():
     model.eval()
     image = torch.Tensor(imageio.imread('output.png')).permute(2, 0, 1).to(device) / 255.
     label = torch.Tensor([sel_cls]).to(device).long()
-    eps = 3500
-    steps = 33
+    eps = 5000
+    steps = 28
     # adv is the shifted image as a pytorch tensor which is (1, 3, 32, 32)
     adv = pgd_attack(image.view(3,32,32), sel_cls, model, stepsize=2.5 * eps / steps, eps=eps, steps=steps, constraint='l_2').cpu()
     # upscale to 480 x 480
-    upsample = transforms.Compose([transforms.ToPILImage(), transforms.Resize(480), transforms.ToTensor()])
+    upsample = transforms.Compose([transforms.ToPILImage(), transforms.ToTensor()])
     save_image(upsample(adv), 'converted.png')
     final_img = cv2.imread('converted.png')
+    final_img = cv2.resize(final_img, (480, 480), interpolation = cv2.INTER_AREA)
     b64_data = base64.b64encode(cv2.imencode('.png', final_img)[1]).decode()
     return b64_data
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
-
