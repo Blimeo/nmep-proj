@@ -46,7 +46,7 @@ def get_query_from_react():
     image = torch.Tensor(imageio.imread('output.png')).permute(2, 0, 1).to(device) / 255.
     label = torch.Tensor([sel_cls]).to(device).long()
     eps = 3500
-    steps = 30
+    steps = 28
     # adv is the shifted image as a pytorch tensor which is (1, 3, 32, 32)
     adv = pgd_attack(image.view(3,32,32), sel_cls, model, stepsize=2.5 * eps / steps, eps=eps, steps=steps, constraint='l_2').cpu()
     # upscale to 480 x 480
