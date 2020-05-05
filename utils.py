@@ -65,3 +65,21 @@ def pgd_accuracy(model, dataset, device, eps=8, steps=7, alpha=0.1):
         count += torch.sum(torch.argmax(out, dim=1) == labels)
         num_examples += len(labels) * 1.
     return count.item() / num_examples
+
+
+
+def get_priors(dataset):
+    n_classes = 10
+    im_size = 32
+    im_len = 3*im_size**2
+    base = torch.zeros((n_classes, im_len))
+    for batch in dataset:
+        images, labels = batch[0].view(-1, im_len), batch[1]
+        print(labels)
+        for i in range(len(images)):
+            base[labels[i]] += images[i]
+
+    mean = torch.mean(images, dim=0)
+    std = torch.std(images, dim=0)
+    print(mean.shape. std.shape)
+    return mean, std
