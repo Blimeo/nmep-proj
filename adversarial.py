@@ -4,15 +4,9 @@ import torchvision.transforms as transforms
 
 def l2_projection(step, start, eps):
     dif = step - start
-<<<<<<< HEAD
     dif = dif.view(-1, 32*32*3)
     n = torch.sum(dif ** 2, dim=1).view(-1, 1) ** (1/2.) # l2 norm
     out = torch.where(n <= eps, dif, (dif / n) * eps) # make sure each dif is bounded by eps
-=======
-    dif = dif.reshape(-1, 32*32*3)
-    n = torch.sum(dif ** 2, dim=1).reshape(-1, 1) ** (1/2.) # l2 norm
-    out = torch.where(n <= eps, dif, (dif / n) * eps)
->>>>>>> daaca783c5d43839cd3f12bc12a46e346cd08d3d
     return out.view(-1, 3, 32, 32)
 
 def li_projection(step, start, eps):
