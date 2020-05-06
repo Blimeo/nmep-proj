@@ -88,7 +88,7 @@ def train(train_dataset, val_dataset, model, epochs, lr, model_name, adversarial
         root = 'models/' + model_name + '/'
         if not os.path.exists(root):
             os.mkdir(root)
-            torch.save(model.state_dict(), root + 'final')
+        torch.save(model.state_dict(), root + 'final')
 
 train_transform = transforms.Compose([
     transforms.RandomHorizontalFlip(),
@@ -121,5 +121,5 @@ model.to(device)
 model.train()
 # print(model)
 # train(train_dataloader, test_dataloader, model, 100, 0.001, adversarial=False)
-train(train_dataloader, test_dataloader, model, 350, 0.1, adversarial=True, model_name='resnet18_l2eps=70', eps=70)
+train(train_dataloader, test_dataloader, model, 75, 0.1, adversarial=True, model_name='resnet18_l2eps=100', eps=100)
 # train(train_dataloader, test_dataloader, model, 25, 0.1, adversarial=False, model_name='resnet18_normal')
